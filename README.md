@@ -1,2 +1,2 @@
-# credit-service
+# credit-system
 Credit service as a study case
