@@ -13,7 +13,7 @@ target/
 .springBeans
 .sts4-cache
 
-./infrastructure/
+/infrastructure/
 
 ### IntelliJ IDEA ###
 .idea
@@ -33,3 +33,10 @@ build/
 
 ### VS Code ###
 .vscode/
+/credit-domain/credit-application-service/.gitignore
+/credit-batch-service-container/.gitignore
+/credit-command-service-container/.gitignore
+/credit-data-access/.gitignore
+/credit-domain/.gitignore
+/credit-domain/credit-domain-core/.gitignore
+/credit-query-service-container/.gitignore
