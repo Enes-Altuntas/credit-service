@@ -1,0 +1,13 @@
+server:
+  port: 4567
+
+spring:
+  application:
+    name: credit-command-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/creditdb
+    username: admin
+    password: admin
+  jpa:
+    hibernate:
+      ddl-auto: update
