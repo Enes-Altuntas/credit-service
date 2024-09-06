@@ -39,7 +39,7 @@ public class CreditEntity extends BaseDataEntity{
 
   private Integer installmentsCount;
 
-  private BigDecimal amount;
+  private String amount;
 
   private UUID userId;
 }

@@ -10,7 +10,6 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=creditdb
     volumes:
-      - ./infrastructure/postgres/data:/var/lib/postgresql/data
       - ./infrastructure/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   zookeeper:
@@ -72,8 +71,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: root
     volumes:
       - ./infrastructure/mongo/scripts/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
-      - ./infrastructure/mongo/mongodb-data:/data/db
-      - ./infrastructure/mongo/mongodb-log:/var/log/mongodb
+
   mongo-express:
     image: mongo-express
     depends_on:

@@ -1,5 +1,6 @@
 package org.colendi.mapper;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import org.colendi.domain.entity.Installment;
@@ -18,7 +19,7 @@ public class InstallmentDataAccessMapper {
         .id(installment.getId().getValue())
         .dueDate(installment.getDueDate().getValue())
         .status(installment.getStatus())
-        .amount(installment.getInstallmentAmount().getValue())
+        .amount(String.valueOf(installment.getInstallmentAmount().getValue()))
         .creditId(installment.getCreditId().getValue())
         .build();
   }
@@ -29,7 +30,7 @@ public class InstallmentDataAccessMapper {
         .dueDate(new InstallmentDueDate(installmentEntity.getDueDate()))
         .status(installmentEntity.getStatus())
         .creditId(new CreditId(installmentEntity.getCreditId()))
-        .installmentAmount(new InstallmentAmount(installmentEntity.getAmount()))
+        .installmentAmount(new InstallmentAmount(new BigDecimal(installmentEntity.getAmount())))
         .payments(new ArrayList<>())
         .build();
   }

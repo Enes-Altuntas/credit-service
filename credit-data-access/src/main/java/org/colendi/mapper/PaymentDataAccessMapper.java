@@ -1,5 +1,6 @@
 package org.colendi.mapper;
 
+import java.math.BigDecimal;
 import java.util.List;
 import org.colendi.domain.entity.Payment;
 import org.colendi.domain.valueobject.InstallmentId;
@@ -14,7 +15,7 @@ public class PaymentDataAccessMapper {
   public PaymentEntity toEntity(Payment payment) {
     return PaymentEntity.builder()
         .id(payment.getId().getValue())
-        .amount(payment.getPaymentAmount().getValue())
+        .amount(String.valueOf(payment.getPaymentAmount().getValue()))
         .installmentId(payment.getInstallmentId().getValue())
         .build();
   }
@@ -22,7 +23,7 @@ public class PaymentDataAccessMapper {
   public Payment toDomain(PaymentEntity paymentEntity) {
     return Payment.builder()
         .paymentId(new PaymentId(paymentEntity.getId()))
-        .paymentAmount(new PaymentAmount(paymentEntity.getAmount()))
+        .paymentAmount(new PaymentAmount(new BigDecimal(paymentEntity.getAmount())))
         .installmentId(new InstallmentId(paymentEntity.getInstallmentId()))
         .build();
   }

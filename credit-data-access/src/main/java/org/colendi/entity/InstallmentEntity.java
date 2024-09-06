@@ -35,7 +35,7 @@ public class InstallmentEntity extends BaseDataEntity {
   @Id
   private UUID id;
 
-  private BigDecimal amount;
+  private String amount;
 
   @Enumerated(EnumType.STRING)
   private InstallmentStatus status;

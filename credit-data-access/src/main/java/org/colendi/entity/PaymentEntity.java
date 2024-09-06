@@ -31,7 +31,7 @@ public class PaymentEntity extends BaseDataEntity {
   @Id
   private UUID id;
 
-  private BigDecimal amount;
+  private String amount;
 
   private UUID installmentId;
 }
