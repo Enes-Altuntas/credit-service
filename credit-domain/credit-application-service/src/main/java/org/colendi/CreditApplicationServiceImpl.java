@@ -89,6 +89,11 @@ public class CreditApplicationServiceImpl implements CreditApplicationService {
     creditPostgresRepository.save(credit);
   }
 
+  @Override
+  public void applyRateOfInterest() {
+
+  }
+
   private void validateUserExistence(String userId) {
     userPostgresRepository.findByUserId(UUID.fromString(userId));
   }

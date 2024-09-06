@@ -11,4 +11,6 @@ public interface CreditApplicationService {
 
   void payInstallment(@Valid PayInstallmentCommand command);
 
+  void applyRateOfInterest();
+
 }
