@@ -49,9 +49,9 @@ public class RedisConfig {
     LettuceClientConfiguration clientConfig = buildLettuceClientConfig(ReadFrom.MASTER);
 
     RedisStandaloneConfiguration standaloneConfig = new RedisStandaloneConfiguration(
-        environment.getProperty("spring.redis.host", String.class,
+        environment.getProperty("spring.data.redis.host", String.class,
             STANDALONE_REDIS_HOST),
-        environment.getProperty("spring.redis.port", Integer.class,
+        environment.getProperty("spring.data.redis.port", Integer.class,
             STANDALONE_REDIS_PORT)
     );
     standaloneConfig.setDatabase(database);

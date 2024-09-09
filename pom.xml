@@ -14,7 +14,6 @@
     <module>credit-query-service-container</module>
     <module>credit-command-service-container</module>
     <module>credit-domain-core</module>
-    <module>credit-batch-service-container</module>
   </modules>
 
   <parent>

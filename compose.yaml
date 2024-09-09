@@ -1,6 +1,52 @@
 version: '3.9'
 
 services:
+  query-service:
+    image: query-service:latest
+    build:
+      context: ./credit-query-service-container/
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+      - redis
+      - debezium
+      - mongo
+      - kafka
+    ports:
+      - "4568:4568"
+    environment:
+      - SPRING_DATA_REDIS_HOST=redis
+      - SPRING_DATA_REDIS_PORT=6379
+      - SPRING_DATA_REDIS_DATABASE=0
+      - SPRING_DATA_MONGODB_HOST=mongo
+      - SPRING_DATA_MONGODB_PORT=27017
+      - SPRING_DATA_MONGODB_DATABASE=creditdb
+      - SPRING_DATA_MONGODB_AUTHENTICATION_DATABASE=admin
+      - SPRING_DATA_MONGODB_USERNAME=root
+      - SPRING_DATA_MONGODB_PASSWORD=root
+      - SPRING_KAFKA_CONSUMER_BOOTSTRAP_SERVERS=kafka:9092
+
+  command-service:
+    image: command-service:latest
+    build:
+      context: ./credit-command-service-container/
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+      - redis
+      - debezium
+      - mongo
+      - kafka
+    ports:
+      - "4567:4567"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/creditdb
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_DATA_REDIS_HOST=redis
+      - SPRING_DATA_REDIS_PORT=6379
+      - SPRING_DATA_REDIS_DATABASE=0
+
   postgres:
     image: debezium/postgres:16
     ports:
