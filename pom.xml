@@ -13,10 +13,8 @@
   <modules>
     <module>credit-query-service-container</module>
     <module>credit-command-service-container</module>
-    <module>credit-domain</module>
+    <module>credit-domain-core</module>
     <module>credit-batch-service-container</module>
-    <module>credit-data-access</module>
-    <module>credit-messaging</module>
   </modules>
 
   <parent>
@@ -35,31 +33,6 @@
       <dependency>
         <groupId>org.colendi</groupId>
         <artifactId>credit-domain-core</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.colendi</groupId>
-        <artifactId>credit-application-service</artifactId>
-        <version>1.0-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>org.colendi</groupId>
-        <artifactId>credit-data-access</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.colendi</groupId>
-        <artifactId>credit-data-access</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.colendi</groupId>
-        <artifactId>credit-messaging</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.colendi</groupId>
-        <artifactId>credit-usecase</artifactId>
         <version>${project.version}</version>
       </dependency>
     </dependencies>
