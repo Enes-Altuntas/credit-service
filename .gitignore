@@ -40,3 +40,4 @@ build/
 /credit-domain/.gitignore
 /credit-domain/credit-domain-core/.gitignore
 /credit-query-service-container/.gitignore
+/credit-domain-core/.gitignore
