@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CreditQueryController {
 
   private final CreditMongoRepository creditMongoRepository;
+
   @PostMapping ("/list")
   public ResponseEntity<Page<CreditResponse>> listCreditsOfUser(@Valid @RequestBody PageDTO pageDTO) {
     return ResponseEntity.ok(creditMongoRepository.findCreditsByUserId(pageDTO));

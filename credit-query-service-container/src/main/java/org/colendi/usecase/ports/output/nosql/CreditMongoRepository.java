@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 
 public interface CreditMongoRepository {
 
+  CreditResponse findCreditById(String id);
+
   Page<CreditResponse> findCreditsByUserId(PageDTO pageDTO);
 
   void saveCredit(CreditMessage credit);

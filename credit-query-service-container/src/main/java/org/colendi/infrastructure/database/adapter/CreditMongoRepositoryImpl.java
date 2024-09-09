@@ -50,7 +50,13 @@ public class CreditMongoRepositoryImpl implements CreditMongoRepository {
 
   private final RedissonClient redissonClient;
 
-  @Cacheable(value = "credits", key = "#pageDTO.userId")
+  @Override
+  public CreditResponse findCreditById(String id) {
+    CreditDocument creditDocument = creditMongoRepository.findById(id)
+        .orElseThrow(() -> new CreditDomainException("Credit not found"));
+    return creditDataAccessMapper.toResponse(creditDocument);
+  }
+
   @Override
   public Page<CreditResponse> findCreditsByUserId(PageDTO pageDTO) {
     Pageable pageable = PageRequest.of(pageDTO.getPage() - 1, pageDTO.getSize());
@@ -112,8 +118,6 @@ public class CreditMongoRepositoryImpl implements CreditMongoRepository {
     return new PageImpl<>(creditResponseList, pageable, total);
   }
 
-
-  @CacheEvict(value = "credits", key = "#creditMessage.userId")
   @Override
   public void saveCredit(CreditMessage creditMessage) {
     creditMongoRepository.save(creditDataAccessMapper.toData(creditMessage));

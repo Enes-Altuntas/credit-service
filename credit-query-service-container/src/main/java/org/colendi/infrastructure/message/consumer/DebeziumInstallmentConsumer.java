@@ -4,10 +4,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+import jodd.cache.Cache;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.colendi.infrastructure.message.consumer.model.CreditMessage;
 import org.colendi.infrastructure.message.consumer.model.InstallmentMessage;
+import org.colendi.usecase.dto.CreditResponse;
 import org.colendi.usecase.ports.output.nosql.CreditMongoRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -26,18 +28,19 @@ public class DebeziumInstallmentConsumer {
   private final RedisTemplate<String, String> installmentRedisTemplate;
 
   public DebeziumInstallmentConsumer(CreditMongoRepository creditMongoRepository,
+      RedisTemplate<String, String> redisTemplate,
       @Qualifier("installmentRedisTemplate") RedisTemplate<String, String> installmentRedisTemplate) {
     this.creditMongoRepository = creditMongoRepository;
     this.installmentRedisTemplate = installmentRedisTemplate;
   }
 
   @KafkaListener(topics = "postgres.public.installments", groupId = "credit-query-service")
-  public void installmentConsumer(ConsumerRecord<String, String> record, Acknowledgment acknowledgment) {
-    log.info("Received message: {}", record.value());
+  public void installmentConsumer(ConsumerRecord<String, String> kafkaRecord, Acknowledgment acknowledgment) {
+    log.info("Received message: {}", kafkaRecord.value());
     try {
-      String installmentId = objectMapper.readTree(record.key()).get("id").asText();
+      String installmentId = objectMapper.readTree(kafkaRecord.key()).get("id").asText();
 
-      JsonNode messageNode = objectMapper.readTree(record.value());
+      JsonNode messageNode = objectMapper.readTree(kafkaRecord.value());
 
       JsonNode afterNode = messageNode.path("after");
       InstallmentMessage messageModel = objectMapper.treeToValue(afterNode, InstallmentMessage.class);
@@ -46,15 +49,16 @@ public class DebeziumInstallmentConsumer {
       }
 
       String messageFromRedis = getMessageFromRedis(installmentId);
-      if(messageFromRedis != null && messageFromRedis.equals(record.value())) {
+      if(messageFromRedis != null && messageFromRedis.equals(kafkaRecord.value())) {
         log.info("InstallmentId: {} already processed", installmentId);
         acknowledgment.acknowledge();
         return;
       }
 
-      putMessageToRedis(installmentId, record.value());
+      putMessageToRedis(installmentId, kafkaRecord.value());
 
       creditMongoRepository.saveInstallment(messageModel);
+
       log.info("Message: {} saved to mongo", messageModel);
       acknowledgment.acknowledge();
     } catch (Exception e) {
